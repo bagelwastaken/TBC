@@ -7,9 +7,7 @@ function randomStr(length) {
     return result;
 }
 
-
-
-(async function () { // We need to wrap the loop into an async function for this to work
+(async function () {
     while (true) {
         document.title = randomStr(10);
         await new Promise(res => setTimeout(res, 1000));

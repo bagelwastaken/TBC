@@ -1,7 +1,30 @@
-*{
+* {
     font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
     background: wheat;
+}
+
+p {
+    margin-left: 1em;
+}
+
+button {
+    background-color: #eee;
+    cursor: pointer;
+    transition: 200ms;
+    border: solid;
+}
+
+button:hover {
+    background-color: #ccc;
+}
+
+button:active {
+    background-color: #aaa;
+}
+
+button:disabled {
+    cursor: not-allowed;
 }
