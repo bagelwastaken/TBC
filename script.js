@@ -1,16 +1,25 @@
-function randomStr(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
+let index = 0
+
+function randomStr(str = String) {
+    const lookup = {
+        A: "Ａ", B: "Ｂ", C: "Ｃ", D: "Ｄ", E: "Ｅ", F: "Ｆ", G: "Ｇ", H: "Ｈ",
+        I: "Ｉ", J: "Ｊ", K: "Ｋ", L: "Ｌ", M: "Ｍ", N: "Ｎ", O: "Ｏ", P: "Ｐ",
+        Q: "Ｑ", R: "Ｒ", S: "Ｓ", T: "Ｔ", U: "Ｕ", V: "Ｖ", W: "Ｗ", X: "Ｘ",
+        Y: "Ｙ", Z: "Ｚ", " ":  "　"
     }
-    return result;
+    if (index >= str.length) {
+        index = 0
+    }
+    title = "‌" + "　".repeat(index) + lookup[str.charAt(index)];
+
+    index += 1
+    return title;
 }
 
 (async function () {
     while (true) {
-        document.title = randomStr(10);
-        await new Promise(res => setTimeout(res, 1000));
+        document.title = randomStr(titleName.value);
+        await new Promise(res => setTimeout(res, 500));
     }
 })()
 
