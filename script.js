@@ -13,3 +13,7 @@ function randomStr(length) {
         await new Promise(res => setTimeout(res, 1000));
     }
 })()
+
+function nav(URL) {
+    window.location.href = URL;
+}
