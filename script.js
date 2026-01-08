@@ -1,5 +1,5 @@
 let ip = undefined
-fetch('https://api.ipify.org?format=json')
+fetch("https://api.ipify.org?format=json")
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -49,5 +49,10 @@ function randomStr(str = String) {
 })()
 
 function nav(URL) {
+    document.title = "‌";
     window.location.href = URL;
 }
+
+window.addEventListener("beforeunload", function (event) {
+    document.title = "‌";
+});
