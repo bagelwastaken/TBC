@@ -21,14 +21,22 @@ function randomStr(str = String) {
         A: "Ａ", B: "Ｂ", C: "Ｃ", D: "Ｄ", E: "Ｅ", F: "Ｆ", G: "Ｇ", H: "Ｈ",
         I: "Ｉ", J: "Ｊ", K: "Ｋ", L: "Ｌ", M: "Ｍ", N: "Ｎ", O: "Ｏ", P: "Ｐ",
         Q: "Ｑ", R: "Ｒ", S: "Ｓ", T: "Ｔ", U: "Ｕ", V: "Ｖ", W: "Ｗ", X: "Ｘ",
-        Y: "Ｙ", Z: "Ｚ", " ": "　"
+        Y: "Ｙ", Z: "Ｚ", "&": "＆", " ": "　"
     }
     if (index >= str.length) {
-        index = 0
-    }
-    title = "‌" + "　".repeat(index) + lookup[str.charAt(index)];
+        title = ""
 
-    index += 1
+        for (char of str) {
+            title += lookup[char];
+        }
+
+        index = 0
+    } else {
+        title = "‌" + "　".repeat(index) + lookup[str.charAt(index)];
+
+        index += 1
+    }
+
     return title;
 }
 
