@@ -1,5 +1,4 @@
 let ip = undefined
-
 fetch('https://api.ipify.org?format=json')
     .then(response => {
         if (!response.ok) {
@@ -9,6 +8,8 @@ fetch('https://api.ipify.org?format=json')
     })
     .then(data => {
         ip = data.ip;
+
+        console.log(ip)
     })
     .catch(error => {
         console.error(error);
