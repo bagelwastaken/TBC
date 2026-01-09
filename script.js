@@ -43,16 +43,21 @@ function randomStr(str = String) {
 
 (async function () {
     while (true) {
-        document.title = randomStr(titleName.value);
+        if (localStorage.getItem("anonymous") === "true") {
+            document.title = "‌";
+        } else {
+            document.title = randomStr(titleName.value);
+        }
         await new Promise(res => setTimeout(res, 500));
     }
 })()
 
-function nav(URL) {
-    document.title = "‌";
-    window.location.href = URL;
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.setAttribute("data-theme", "dark");
+} else {
+    document.body.setAttribute("data-theme", "light");
 }
 
-window.addEventListener("beforeunload", function (event) {
-    document.title = "‌";
-});
+function nav(URL) {
+    window.location.href = URL;
+}

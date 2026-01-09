@@ -1,3 +1,5 @@
+/* basic */
+
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -9,6 +11,8 @@ body {
 p {
     margin-left: 1em;
 }
+
+/* buttons */
 
 button {
     background-color: #d8d8d8;
@@ -30,4 +34,36 @@ button:active {
 
 button:disabled {
     cursor: not-allowed;
+}
+
+.btn-group {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+}
+
+/* fieldset */
+
+legend {
+    background-color: #8d8d8d;
+    color: white;
+    padding: 1px 5px;
+    border-radius: 10px;
+}
+
+fieldset {
+    padding: 15px 15px;
+}
+
+input {
+    cursor: pointer;
+}
+
+input {
+    cursor: pointer;
+}
+
+label {
+    cursor: pointer;
+    user-select: none;
 }
