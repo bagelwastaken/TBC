@@ -15,14 +15,45 @@
     <header></header>
 
     <label>Password: </label>
-    <input type="password" name="password" required /><br />
-    <button type="submit">Login</button>
+    <input type="password" id="password"></input>
+    <br />
+    <button id="login">Login</button>
+    <br />
+
+    <p id="text"></p>
 </body>
 
 <script src="./script.js"></script>
 
 <script>
+    const passwordInput = document.getElementById("password");
+    const login = document.getElementById("login");
+    const text = document.getElementById("text");
 
+    login.addEventListener("click", (e) => {
+        let password = passwordInput.value;
+
+        if (password == "") {
+            document.cookie = `password=; SameSite=Strict; Secure; Max-Age=0`;
+
+            text.innerHTML = "Successfully logged out."
+            setTimeout(() => {
+                text.innerHTML = ""
+            }, 2000);
+        } else {
+            document.cookie = `password=${password}; SameSite=Strict; Secure; Max-Age=2628000`;
+
+            text.innerHTML = "Successfully logged in."
+            setTimeout(() => {
+                text.innerHTML = ""
+            }, 2000);
+        }
+    });
+
+    (async function () {
+        const loginBtn = await waitForElm("#loginBtn");
+        loginBtn.remove();
+    })();
 </script>
 
 </html>
