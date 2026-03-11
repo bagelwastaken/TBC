@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TBC</title>
+    <title>Personnel - TBC</title>
 
     <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" href="./style.css">
@@ -14,11 +14,33 @@
 <body>
     <header></header>
 
-    <p>
-        temp
+    <p id="text">
+        loading...
     </p>
 </body>
 
 <script src="./script.js"></script>
+
+<script>
+    const text = document.getElementById("text");
+
+    const ciphertext = base64ToBytes("LHZZ1XNmbU5hI6IUSdhX8BvSIlZmgVdNNmScd40BsvtNMwcCriMP8MIjMLengeIqg/MWEfiFxpXOdL4jfRUcglMSMyubie20thJTe0lDyp+bL+v4dA6b1sA=");
+    const salt = base64ToBytes("HGlJ13TdIBmZtd3YF6BnNQ==");
+    const iv = base64ToBytes("p+7OCXfXV7Y8xOA9");
+
+    (async function () {
+        try {
+            plaintext = await decrypt(
+                ciphertext,
+                salt,
+                iv,
+                document.cookie.split(";").map(c => c.trim()).find(c => c.startsWith("password="))?.split("=")[1] || null // a sin against humanity
+            );
+            text.innerHTML = new TextDecoder().decode(plaintext);
+        } catch {
+            text.innerHTML = "ERROR: Incorrect password; or not logged in."
+        }
+    })();
+</script>
 
 </html>
