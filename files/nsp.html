@@ -48,8 +48,7 @@
 
     <br />
 
-    <div role="note" style="font-style: italic;">DISCLAIMER: encryption has not yet been added. i know, pretty stupid
-        for a password manager. please be patient.</div>
+    <div role="note" style="font-style: italic;">DISCLAIMER: this is literal shit, be patient.</div>
 
     <br />
 
@@ -61,12 +60,14 @@
 
     <div id="passwordList"></div>
 
-    <br />
-    <label>Name: </label><input id="newPasswordName" />
-    <br />
-    <label>Password: </label><input type="password" id="newPasswordPswd" />
-    <br />
-    <button id="newPassword">+</button>
+    <div id="newPasswordContainer" hidden>
+        <br />
+        <label>Name: </label><input id="newPasswordName" />
+        <br />
+        <label>Password: </label><input type="password" id="newPasswordPswd" />
+        <br />
+        <button id="newPassword">+</button>
+    </div>
 </body>
 
 <script>
@@ -130,26 +131,52 @@
     // main
     const accessBtn = document.getElementById("accessBtn");
     const passwordInput = document.getElementById("password");
-    const passwordInput2 = document.getElementById("passwordVerify");
     const text = document.getElementById("text");
     const passwordList = document.getElementById("passwordList");
+    const newPasswordContainer = document.getElementById("newPasswordContainer");
 
     accessBtn.addEventListener("click", async function (e) {
-        if (passwordInput.value == passwordInput2.value && passwordInput.value) {
-            text.innerHTML = "success";
+        text.innerHTML = "Decrypting...";
+
+        if (passwordInput.value) {
+            if (dictionary != null) {
+                try {
+                encryption = JSON.parse(
+                    document.cookie.split(";").map(c => c.trim()).find(c => c.startsWith("passwords="))?.split("=")[1]
+                ); // a sin against humanity
+
+                ciphertext = encryption["cipher"];
+                salt = encryption["salt"];
+                iv = encryption["iv"];
+                passwords = await decrypt(
+                    ciphertext,
+                    salt,
+                    iv,
+                    passwordInput
+                );
+
+                updatePasswordList();
+                newPasswordContainer.hidden = false;
+                } catch (e) {
+                    if (e instanceof TypeError) {
+
+                    }
+                    text.innerHTML = "Failed to decrypt.";
+                }
+            };
         } else {
-            text.innerHTML = "failure";
+            text.innerHTML = "No password provided.";
         }
 
         setTimeout(() => { text.innerHTML = "" }, 1000);
     });
 
-    passwords = JSON.parse(
+    encryption = JSON.parse(
         document.cookie.split(";").map(c => c.trim()).find(c => c.startsWith("passwords="))?.split("=")[1]
     ); // a sin against humanity
-    document.cookie = `passwords=${JSON.stringify(passwords)}; SameSite=Strict; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
+    document.cookie = `passwords=${JSON.stringify(encryption)}; SameSite=Strict; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
 
-    const dictionary = passwords || null;
+    const dictionary = encryption || null;
 
     function updatePasswordList() {
         passwordList.innerHTML = "";
@@ -181,10 +208,6 @@
 
             passwordList.appendChild(div);
         });
-    };
-
-    if (dictionary != null) {
-        updatePasswordList();
     };
 
     const newPassword = document.getElementById("newPassword");
