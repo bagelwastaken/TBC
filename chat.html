@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat</title>
+
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        .btn {
+            display: inline;
+            position: relative;
+        }
+
+        .btn button {
+            justify-content: center;
+            font-size: 1em;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            border-style: none;
+            background-color: #6495ed;
+            color: white;
+        }
+
+        .btn button:hover {
+            background-color: #7d64ed;
+        }
+
+        .tooltip {
+            font-size: 0.9em;
+            transition: 300ms;
+            position: absolute;
+            z-index: 1;
+            opacity: 0;
+            right: 50%;
+            transform: translateX(50%) translateY(-120%);
+        }
+
+        .btn:hover .tooltip {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+
+</body>
+
+<script src="./script.js"></script>
+
+</html>

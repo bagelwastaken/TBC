@@ -1,7 +1,43 @@
+:root {
+    --bg-color: #222222;
+    --text-color: #ffffff;
+    --accent-color: #000000;
+    --link-color: #4372e9;
+}
+
+body.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --accent-color: #3c3c3c;
+    --link-color: #0000FF;
+}
+
+body.modernDark {
+    --bg-color: #222222;
+    --text-color: #e0e0e0;
+    --accent-color: #1e1e1e;
+}
+
+body.contrast {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --accent-color: #ffff00;
+    --link-color: #00ffff;
+}
+
+body.cat {
+    background-image: url("https://cataas.com/cat/gif?type=square");
+    background-size: 100vh;
+    background-position-x: center;
+}
+
+
+
 body {
-    background-color: #222222;
-    color: #ffffff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-family: sans-serif;
+    border: 1px solid var(--accent);
 }
 
 a {
