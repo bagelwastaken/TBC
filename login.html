@@ -41,7 +41,7 @@
                 text.innerHTML = ""
             }, 2000);
         } else {
-            document.cookie = `password=${password}; SameSite=Strict; Secure; Max-Age=2628000`;
+            document.cookie = `password=${password}; SameSite=Strict; Secure; Max-Age=2628000;`;
 
             text.innerHTML = "Successfully logged in."
             setTimeout(() => {
