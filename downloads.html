@@ -56,7 +56,7 @@
     <br>
 
     <div class="btn">
-        <span class="tooltip">2.22 KB</span>
+        <span class="tooltip"></span>
 
         <a href="./files/google.html" download="_.htm">
             <button>GoGuardian Bypass</button>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="btn">
-        <span class="tooltip">2.87 MB</span>
+        <span class="tooltip"></span>
 
         <a href="https://github.com/bagelwastaken/TBC/archive/refs/heads/main.zip" download="tbc.zip">
             <button>TBC Local</button>
@@ -72,7 +72,7 @@
     </div>
 
     <div class="btn">
-        <span class="tooltip">13.60 KB</span>
+        <span class="tooltip"></span>
 
         <a href="./files/nsp.html" download="nsp.html">
             <button>Password Manager</button>
@@ -81,5 +81,36 @@
 </body>
 
 <script src="./script.js"></script>
+<script>
+    document.querySelectorAll(".btn").forEach(async btn => {
+        const link = btn.querySelector("a");
+        const tooltip = btn.querySelector(".tooltip");
+        const fileUrl = link.href;
+
+        try {
+            const response = await fetch(fileUrl, { method: "HEAD" });
+            const size = response.headers.get("Content-Length");
+
+            if (size) {
+                tooltip.textContent = formatBytes(Number(size));
+            } else {
+                tooltip.textContent = "Unknown size";
+            }
+        } catch (err) {
+            tooltip.textContent = "? B";
+            console.error(`Error with "${btn.querySelector("button").innerHTML}": ${err}`);
+        }
+    });
+
+    function formatBytes(bytes) {
+        const units = ["B", "KB", "MB", "GB"];
+        let i = 0;
+        while (bytes >= 1024 && i < units.length - 1) {
+            bytes /= 1024;
+            i++;
+        }
+        return bytes.toFixed(2) + " " + units[i];
+    }
+</script>
 
 </html>
