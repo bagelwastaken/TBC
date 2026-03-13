@@ -30,6 +30,10 @@
         button {
             cursor: pointer;
         }
+
+        #reset {
+            font-weight: bolder;
+        }
     </style>
 </head>
 
@@ -64,8 +68,24 @@
         <br />
         <button id="newPassword">+</button>
     </div>
+
+    <div>
+        <br />
+        <label>RegEx: </label><input id="generateInput" />
+        <br />
+        <button id="generateBtn">generate</button>
+        <button onclick="generateInput.value = '[A-Za-z0-9!@#$%^&*.()]{100}'">Google</button>
+        <button onclick="generateInput.value = '.{72}'">HackerOne</button>
+        <button onclick="generateInput.value = '.{72}'">GitHub</button>
+        <button onclick="generateInput.value = '(.{100}){100}'">Reddit</button>
+    </div>
+
+    <br />
+
+    <button id="reset">Reset passwords.</button>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/randexp/build/randexp.min.js"></script>
 <script>
     // cryptography
     function getKeyMaterial(password) {
@@ -169,9 +189,17 @@
         return null;
     };
 
+    async function message(msg, duration = 1000) {
+        text.innerHTML = msg;
+
+        if (duration != 0) {
+            setTimeout(() => { text.innerHTML = "" }, duration);
+        }
+    };
+
     accessBtn.addEventListener("click", async function (e) {
         password = passwordInput.value;
-        text.innerHTML = "Decrypting...";
+        message("Decrypting...", 0);
 
         if (passwordInput.value) {
             try {
@@ -188,23 +216,22 @@
                     password
                 )));
 
+                message("Decrypted.");
                 updatePasswordList();
                 newPasswordContainer.hidden = false;
             } catch (e) {
                 if (e instanceof TypeError) {
-                    console.log("No passwords found, creating new set...");
                     passwords = {}
                     newPasswordContainer.hidden = false;
+                    message("No passwords found, created new set.");
                 } else {
-                    text.innerHTML = "Incorrect password.";
+                    message("Incorrect password.");
                     console.log(e);
                 };
             };
         } else {
-            text.innerHTML = "No password provided.";
+            message("No password provided.");
         }
-
-        setTimeout(() => { text.innerHTML = "" }, 1000);
     });
 
     encryption = JSON.parse(getCookie("passwords") || null);
@@ -254,6 +281,36 @@
 
         updateCookies();
         updatePasswordList();
+    });
+
+    const generateBtn = document.getElementById("generateBtn");
+    const generateInput = document.getElementById("generateInput");
+    function generate(regex) { navigator.clipboard.writeText(new RandExp(regex).gen()); };
+
+    generateBtn.addEventListener("click", async function (e) {
+        generateBtn.innerHTML = "copied";
+        setTimeout(() => { generateBtn.innerHTML = "generate" }, 1000);
+
+        generate(generateInput.value);
+    });
+
+    const reset = document.getElementById("reset");
+    let resetCount = 0;
+
+    reset.addEventListener("click", async function (e) {
+        resetCount += 1;
+        if (resetCount == 1) { reset.innerHTML = "Are you sure?"; }
+        else if (resetCount == 2) { reset.innerHTML = "Are you really sure?"; }
+        else if (resetCount == 3) { reset.innerHTML = "Are you really really sure?"; }
+        else if (resetCount > 3) {
+            reset.innerHTML = "Reset.";
+            document.cookie = `passwords=; SameSite=Strict; Secure; Max-Age=0`;
+        }
+
+        setTimeout(() => {
+            reset.innerHTML = "Reset passwords";
+            resetCount = 0;
+        }, 3000);
     });
 </script>
 
