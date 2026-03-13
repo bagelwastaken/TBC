@@ -48,10 +48,6 @@
 
     <br />
 
-    <div role="note" style="font-style: italic;">DISCLAIMER: this is literal shit, be patient.</div>
-
-    <br />
-
     <label>Password: </label><input type="password" id="password" />
     <br />
     <button id="accessBtn">Access</button>
@@ -128,41 +124,81 @@
         return window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ciphertext);
     }
 
+    function toBase64(buffer) {
+        return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    }
+
+    function fromBase64(b64) {
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+    }
+
     // main
     const accessBtn = document.getElementById("accessBtn");
     const passwordInput = document.getElementById("password");
     const text = document.getElementById("text");
     const passwordList = document.getElementById("passwordList");
     const newPasswordContainer = document.getElementById("newPasswordContainer");
+    let passwords;
+
+    async function updateCookies() {
+        const enc = new TextEncoder();
+        ({ ciphertext, salt, iv } = await encrypt(enc.encode(JSON.stringify(passwords)), password));
+
+        dict = {
+            "ciphertext": toBase64(ciphertext),
+            "salt": toBase64(salt),
+            "iv": toBase64(iv)
+        }
+
+        document.cookie = `passwords=${JSON.stringify(dict)}; SameSite=Strict; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
+    }
+
+    function getCookie(name) {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                return cookie.substring(name.length + 1);
+            };
+        };
+        return null;
+    };
 
     accessBtn.addEventListener("click", async function (e) {
+        password = passwordInput.value;
         text.innerHTML = "Decrypting...";
 
         if (passwordInput.value) {
-            if (dictionary != null) {
-                try {
-                encryption = JSON.parse(
-                    document.cookie.split(";").map(c => c.trim()).find(c => c.startsWith("passwords="))?.split("=")[1]
-                ); // a sin against humanity
+            try {
+                encryption = JSON.parse(getCookie("passwords") || null);
 
-                ciphertext = encryption["cipher"];
-                salt = encryption["salt"];
-                iv = encryption["iv"];
-                passwords = await decrypt(
+                ciphertext = fromBase64(encryption["ciphertext"]);
+                salt = fromBase64(encryption["salt"]);
+                iv = fromBase64(encryption["iv"]);
+                const dec = new TextDecoder();
+                passwords = JSON.parse(dec.decode(await decrypt(
                     ciphertext,
                     salt,
                     iv,
-                    passwordInput
-                );
+                    password
+                )));
 
                 updatePasswordList();
                 newPasswordContainer.hidden = false;
-                } catch (e) {
-                    if (e instanceof TypeError) {
-
-                    }
-                    text.innerHTML = "Failed to decrypt.";
-                }
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    console.log("No passwords found, creating new set...");
+                    passwords = {}
+                    newPasswordContainer.hidden = false;
+                } else {
+                    text.innerHTML = "Incorrect password.";
+                    console.log(e);
+                };
             };
         } else {
             text.innerHTML = "No password provided.";
@@ -171,17 +207,12 @@
         setTimeout(() => { text.innerHTML = "" }, 1000);
     });
 
-    encryption = JSON.parse(
-        document.cookie.split(";").map(c => c.trim()).find(c => c.startsWith("passwords="))?.split("=")[1]
-    ); // a sin against humanity
-    document.cookie = `passwords=${JSON.stringify(encryption)}; SameSite=Strict; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
-
-    const dictionary = encryption || null;
+    encryption = JSON.parse(getCookie("passwords") || null);
 
     function updatePasswordList() {
         passwordList.innerHTML = "";
 
-        Object.entries(dictionary).forEach(([key, value]) => {
+        Object.entries(passwords).forEach(([key, value]) => {
             const div = document.createElement("div");
             const label = document.createElement("label");
             const input = document.createElement("input");
@@ -221,8 +252,7 @@
             delete passwords[newPasswordName.value];
         }
 
-        console.log(JSON.stringify(passwords));
-        document.cookie = `passwords=${JSON.stringify(passwords)}; SameSite=Strict; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
+        updateCookies();
         updatePasswordList();
     });
 </script>
