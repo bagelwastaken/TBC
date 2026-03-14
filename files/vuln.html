@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vulnerability Scanner</title>
+</head>
+
+<body>
+    <h1>Potential Vulnerabilities Below</h1>
+
+    <div id="vulns">
+        <p>
+            <img src="https://placehold.co/100" alt="no" />
+            IP grabbing vector
+        </p>
+
+        <p>
+            <a href="." download>crash vector (hypothetically redirects to constant bit stream)</a>
+        </p>
+
+        <p>
+            screensize could be found using advanced CSS
+        </p>
+    </div>
+</body>
+
+<script>
+    const vulns = document.getElementById("vulns");
+    vulns.innerHTML = "";
+
+    function log(message) {
+        vulns.innerHTML += `<p>${message}</p>`;
+        console.log(message);
+    }
+
+    // check permissions
+    const permissions = [
+        "background-sync",
+        "camera",
+        "clipboard-read",
+        "geolocation",
+        "microphone",
+        "notifications",
+        "window-management"
+    ];
+
+    processPermissions();
+
+    async function processPermissions() {
+        for (const permission of permissions) {
+            const result = await getPermission(permission);
+            if (result == "granted") {
+                log(`'${permission}' permission is granted`);
+            };
+        };
+    };
+
+    async function getPermission(permission) {
+        try {
+            let result;
+            if (permission === "top-level-storage-access") {
+                result = await navigator.permissions.query({
+                    name: permission,
+                    requestedOrigin: window.location.origin,
+                });
+            } else {
+                result = await navigator.permissions.query({ name: permission });
+            };
+            return result.state;
+        } catch (error) {
+            return null;
+        };
+    };
+
+    if (navigator.cookieEnabled) {
+        log("cookies are enabled");
+    };
+
+    (async function () {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+
+        log(`your IP is ${data["ip"]}`);
+    })();
+
+    (async function () {
+        const newTab = await window.open("", "_blank");
+
+        if (newTab) {
+            newTab.close();
+            log("can open popups");
+        }
+    })();
+</script>
+
+</html>
