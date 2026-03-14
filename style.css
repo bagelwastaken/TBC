@@ -1,28 +1,25 @@
 :root {
     --bg-color: #222222;
     --text-color: #ffffff;
-    --accent-color: #000000;
     --link-color: #4372e9;
 }
 
 body.light {
     --bg-color: #ffffff;
     --text-color: #000000;
-    --accent-color: #3c3c3c;
     --link-color: #0000FF;
 }
 
 body.modernDark {
-    --bg-color: #222222;
-    --text-color: #e0e0e0;
-    --accent-color: #1e1e1e;
+    --bg-color: #202020;
+    --text-color: #d0d0d0;
+    --link-color: #4b7bf4;
 }
 
 body.contrast {
     --bg-color: #000000;
     --text-color: #ffffff;
-    --accent-color: #ffff00;
-    --link-color: #00ffff;
+    --link-color: #ffff00;
 }
 
 body.cat {
@@ -37,11 +34,10 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: sans-serif;
-    border: 1px solid var(--accent);
 }
 
 a {
-    color: #4372e9;
+    color: var(--link-color);
     text-decoration: none;
 }
 
