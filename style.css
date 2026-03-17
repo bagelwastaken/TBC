@@ -2,24 +2,26 @@
     --bg-color: #222222;
     --text-color: #ffffff;
     --link-color: #4372e9;
+    --active-link-color: #c9a8ea;
 }
 
 body.light {
     --bg-color: #ffffff;
     --text-color: #000000;
     --link-color: #0000FF;
+    --active-link-color: #9b11e6;
 }
 
 body.modernDark {
     --bg-color: #202020;
     --text-color: #d0d0d0;
-    --link-color: #4b7bf4;
 }
 
 body.contrast {
     --bg-color: #000000;
     --text-color: #ffffff;
     --link-color: #ffff00;
+    --active-link-color: #ff0000;
 }
 
 body.cat {
@@ -41,8 +43,8 @@ a {
     text-decoration: none;
 }
 
-abbr {
-    color: #dddddd;
+.activeLink {
+    color: var(--active-link-color);
 }
 
 
