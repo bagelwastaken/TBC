@@ -74,3 +74,10 @@ button:active {
     right: 10px;
     top: 10px;
 }
+
+
+
+details summary {
+    cursor: pointer;
+    user-select: none;
+}
