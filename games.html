@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Downloads</title>
+
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        iframe {
+            height: 200px;
+            width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+    <p>
+        <strong>games</strong> (which totally weren't ripped from <a href="https://itch.io/">itch.io</a>)
+    </p>
+</body>
+
+<script src="./script.js"></script>
+<script>
+    const games = [
+        {
+            name: "PICOHOT",
+            code: "https://html-classic.itch.zone/html/4274784/picohot_html/picohot.js",
+            link: "https://tarkovsky.itch.io/picohot"
+        },
+        {
+            name: "POOM",
+            code: "https://html-classic.itch.zone/html/7204900/poom_1.9.js",
+            link: "https://freds72.itch.io/poom"
+        },
+        {
+            name: "CELESTE Classic",
+            code: "https://html-classic.itch.zone/html/235259/Celeste/celeste.js",
+            link: "https://maddymakesgamesinc.itch.io/celesteclassic"
+        }
+    ]
+
+    games.forEach(game => {
+        let name;
+        const iframe = document.createElement("iframe");
+        const a = document.createElement("a");
+
+        Object.entries(game).forEach(([key, value]) => {
+            switch (key) {
+                case "name":
+                    name = value;
+                case "code":
+                    iframe.scrolling = "no";
+                    iframe.src = `./games/itch_loader.html?${value}`;
+                case "link":
+                    a.href = value;
+                    a.innerHTML = ` ${name}`;
+            }
+        });
+        const br = document.createElement("br");
+
+        document.body.appendChild(br);
+        document.body.appendChild(iframe);
+        document.body.appendChild(a);
+    });
+</script>
+
+</html>
