@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+    /* ========= CONFIG ========= */
+    const CONFIG = {
+        API: "https://script.google.com/macros/s/AKfycbwDiZ0mUEAUKQf5Fik8NwLPEtnyma_wxyigA4kYYLqw5JabpmLUSssV5JwnhaQQYbZ_uw/exec"
+    }
+</script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +21,118 @@
 <body>
     <header></header>
 
-    <p><abbr title="Work in progress">WIP</abbr> page.</p>
+    <blockquote>yeah ik chat reloads slow</blockquote>
 
-    <p>Check back later.</p>
+    <input id="key" type="password">
+    <hr />
+    <div id="chat">Loading...</div>
+    <hr />
+    <input id="msg" placeholder="Message..." />
+    <button id="msgBtn" onclick="msgBtn()">send message</button>
+    <div id="lastMsg">Last Received N/A</div>
 </body>
 
 <script src="./script.js"></script>
+<script>
+    async function aesEncrypt(text, password) {
+        const enc = new TextEncoder();
+        const key = await crypto.subtle.digest("SHA-256", enc.encode(password));
+        const cryptoKey = await crypto.subtle.importKey("raw", key, "AES-GCM", false, ["encrypt"]);
+
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, enc.encode(text));
+
+        return btoa(JSON.stringify({ iv: Array.from(iv), data: Array.from(new Uint8Array(encrypted)) }));
+    }
+
+    async function aesDecrypt(encoded, password) {
+        const { iv, data } = JSON.parse(atob(encoded));
+        const enc = new TextEncoder();
+        const key = await crypto.subtle.digest("SHA-256", enc.encode(password));
+        const cryptoKey = await crypto.subtle.importKey("raw", key, "AES-GCM", false, ["decrypt"]);
+
+        const decrypted = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: new Uint8Array(iv) },
+            cryptoKey,
+            new Uint8Array(data)
+        );
+
+        return new TextDecoder().decode(decrypted);
+    }
+
+    const chat = document.getElementById("chat");
+    const lastMsg = document.getElementById("lastMsg");
+    const keyElm = document.getElementById("key");
+    let correctPassword = null;
+
+    async function get() {
+        const res = await fetch(`${CONFIG.API}`, {
+            method: "GET"
+        });
+        const data = res.text();
+
+        return data;
+    }
+
+    function send(message, nickname = "Guest") {
+        fetch(`${CONFIG.API}`, {
+            method: "POST",
+            contentType: "application/json",
+            body: JSON.stringify({
+                text: message,
+                name: nickname
+            })
+        });
+    }
+
+    (async function mainLoop() {
+        try {
+            let text = await get();
+
+            const lines = text.split("\n");
+            const lastLines = lines.slice(-50);
+
+            const html = await Promise.all(
+                lastLines.map(async line => {
+                    const [user, ...rest] = line.split(";");
+                    const message = rest.join(";");
+                    let decrypted = await aesDecrypt(message, correctPassword ?? keyElm.value);
+
+                    decrypted = decrypted.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    return `<div>${user}: <msg>${decrypted}</msg></div>`;
+                })
+            );
+
+            chat.innerHTML = html.join("\n");
+
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            lastMsg.innerText = `Last Received ${hours}:${minutes}:${seconds}`;
+
+            correctPassword = correctPassword ?? keyElm.value;
+        } catch (e) {
+            chat.innerHTML = '<div>either the wrong password or just "that one random glitch that happens sometimes" :P</div>';
+            console.error(e);
+        }
+
+        mainLoop();
+    })();
+
+    const msg = document.getElementById("msg");
+    async function msgBtn() {
+        if (correctPassword) {
+            if (msg.value) { send(await aesEncrypt(msg.value, correctPassword)); }
+            msg.value = "";
+        }
+    }
+    msg.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            document.getElementById("msgBtn").click()
+        }
+    })
+</script>
 
 </html>
