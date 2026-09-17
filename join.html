@@ -42,43 +42,13 @@
     <button id="join">Join</button>
 
     <p id="output"></p>
+
+    <canvas id="canvas"></canvas>
 </body>
 
 <script src="./script.js"></script>
 <script>
-    const dob = document.getElementById("dob");
-    const email = document.getElementById("email");
-    const first = document.getElementById("first");
-    const last = document.getElementById("last");
-    const privacy = document.getElementById("privacy");
-    const output = document.getElementById("output");
-
-    console.log(email)
-
-    document.getElementById("join").addEventListener("click", async e => {
-        if (!privacy.checked) {
-            output.innerText = "Oops! Seems like you haven't agreed to the privacy policy.";
-            return;
-        }
-        if (!email.checkValidity()) {
-            output.innerText = "Oops! Seems like that's not a valid email address.";
-            return;
-        }
-
-        const ipRes = await fetch("https://api.ipify.org");
-
-        fetch(encodeURI("https://script.google.com/macros/s/AKfycbzPFjaETipc6bHy6tCiHOjZSQL_vV-Gje1dQ3LDIErH-0gvSbmzMJFsadtk-jU55SgG/exec" +
-            `?first=${first.value}` +
-            `&last=${last.value}` +
-            `&email=${email.value}` +
-            `&ip=${await ipRes.text()}` +
-            `&userAgent=${navigator.userAgent}` +
-            `&languages=${navigator.languages}` +
-            `&platform=${navigator.platform}`),
-            { method: "GET", mode: "no-cors" });
-
-        output.innerText = "Congratulations on joining The Bagel Club! We will contact you soon."
-    });
+function a0_0x3ca2(_0x38a7b3,_0x3d50cf){_0x38a7b3=_0x38a7b3-0x7a;const _0x3d5eb4=a0_0x2a5a();let _0x1cb4af=_0x3d5eb4[_0x38a7b3];return _0x1cb4af;}function a0_0x2a5a(){const _0x19e30a=['1185UxzYNE','first','&languages=','value','1454565lWtDwG','2750wcPylu','https://script.google.com/macros/s/AKfycbzPFjaETipc6bHy6tCiHOjZSQL_vV-Gje1dQ3LDIErH-0gvSbmzMJFsadtk-jU55SgG/exec','dob','toString','indexOf','platform','8191413DQUwqE','apply','6312582VuFNdX','constructor','text','getExtension','&ip=','336eBeFHc','WEBGL_debug_renderer_info','10GPhMsm','userAgent','checked','UNMASKED_RENDERER_WEBGL','innerText','getParameter','https://api.ipify.org','11855992zxMRpt','?first=','&last=','addEventListener','7048rkwdIg','email','privacy','1638379HYYcmN','join','Congratulations\x20on\x20joining\x20The\x20Bagel\x20Club!\x20We\x20will\x20contact\x20you\x20soon.','no-cors','output','getElementById','(((.+)+)+)+$','languages','last','click','search','&renderer=','&email='];a0_0x2a5a=function(){return _0x19e30a;};return a0_0x2a5a();}const a0_0xae687d=a0_0x3ca2;(function(_0x3fbeb8,_0x298227){const _0x490e22=a0_0x3ca2,_0x19d3f9=_0x3fbeb8();while(!![]){try{const _0x19fa84=-parseInt(_0x490e22(0x85))/0x1+-parseInt(_0x490e22(0x82))/0x2*(-parseInt(_0x490e22(0x92))/0x3)+-parseInt(_0x490e22(0xa4))/0x4*(parseInt(_0x490e22(0x97))/0x5)+-parseInt(_0x490e22(0x9f))/0x6+-parseInt(_0x490e22(0x96))/0x7+parseInt(_0x490e22(0x7e))/0x8+-parseInt(_0x490e22(0x9d))/0x9*(-parseInt(_0x490e22(0xa6))/0xa);if(_0x19fa84===_0x298227)break;else _0x19d3f9['push'](_0x19d3f9['shift']());}catch(_0x273be7){_0x19d3f9['push'](_0x19d3f9['shift']());}}}(a0_0x2a5a,0xccff1));const a0_0x113926=(function(){let _0x1671c6=!![];return function(_0x45366e,_0x3ff173){const _0x135f66=_0x1671c6?function(){const _0x220ebc=a0_0x3ca2;if(_0x3ff173){const _0xb5b0f7=_0x3ff173[_0x220ebc(0x9e)](_0x45366e,arguments);return _0x3ff173=null,_0xb5b0f7;}}:function(){};return _0x1671c6=![],_0x135f66;};}()),a0_0x1cb4af=a0_0x113926(this,function(){const _0x4c8d6d=a0_0x3ca2;if(a0_0x1cb4af['bind']()['toString']()[_0x4c8d6d(0x9b)]('\x0a')!==-0x1)return;return a0_0x1cb4af[_0x4c8d6d(0x9a)]()[_0x4c8d6d(0x8f)](_0x4c8d6d(0x8b))[_0x4c8d6d(0x9a)]()[_0x4c8d6d(0xa0)](a0_0x1cb4af)['search'](_0x4c8d6d(0x8b));});a0_0x1cb4af();const dob=document['getElementById'](a0_0xae687d(0x99)),email=document[a0_0xae687d(0x8a)](a0_0xae687d(0x83)),first=document[a0_0xae687d(0x8a)](a0_0xae687d(0x93)),last=document[a0_0xae687d(0x8a)](a0_0xae687d(0x8d)),privacy=document[a0_0xae687d(0x8a)](a0_0xae687d(0x84)),output=document[a0_0xae687d(0x8a)](a0_0xae687d(0x89)),canvas=document[a0_0xae687d(0x8a)]('canvas'),gl=canvas['getContext']('webgl');document[a0_0xae687d(0x8a)](a0_0xae687d(0x86))[a0_0xae687d(0x81)](a0_0xae687d(0x8e),async _0x4fa949=>{const _0x10de92=a0_0xae687d;if(!privacy[_0x10de92(0xa8)]){output[_0x10de92(0x7b)]='Oops!\x20Seems\x20like\x20you\x20haven\x27t\x20agreed\x20to\x20the\x20privacy\x20policy.';return;}if(!email['checkValidity']()){output[_0x10de92(0x7b)]='Oops!\x20Seems\x20like\x20that\x27s\x20not\x20a\x20valid\x20email\x20address.';return;}const _0x57009d=await fetch(_0x10de92(0x7d));fetch(encodeURI(_0x10de92(0x98)+(_0x10de92(0x7f)+first[_0x10de92(0x95)])+(_0x10de92(0x80)+last[_0x10de92(0x95)])+(_0x10de92(0x91)+email['value'])+(_0x10de92(0xa3)+await _0x57009d[_0x10de92(0xa1)]())+('&userAgent='+navigator[_0x10de92(0xa7)])+(_0x10de92(0x94)+navigator[_0x10de92(0x8c)])+('&platform='+navigator[_0x10de92(0x9c)])+(_0x10de92(0x90)+gl[_0x10de92(0x7c)](gl[_0x10de92(0xa2)](_0x10de92(0xa5))[_0x10de92(0x7a)]))),{'method':'GET','mode':_0x10de92(0x88)}),output[_0x10de92(0x7b)]=_0x10de92(0x87);});
 </script>
 
 </html>
