@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home</title>
+
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+    <div>
+        <label for="dob">Date Of Birth: </label>
+        <input type="date" name="dob" id="dob">
+    </div>
+
+    <div>
+        <label for="email">Email: </label>
+        <input type="email" name="email" id="email">
+    </div>
+
+    <div>
+        <label for="first">First Name: </label>
+        <input type="text" name="first" id="first">
+    </div>
+
+    <div>
+        <label for="last">Last Name: </label>
+        <input type="text" name="last" id="last">
+    </div>
+
+    <div>
+        <label for="privacy">I have read and accept the privacy policy: </label>
+        <input type="checkbox" name="privacy" id="privacy">
+    </div>
+
+    <button id="join">Join</button>
+
+    <p id="output"></p>
+</body>
+
+<script src="./script.js"></script>
+<script>
+    const dob = document.getElementById("dob");
+    const email = document.getElementById("email");
+    const first = document.getElementById("first");
+    const last = document.getElementById("last");
+    const privacy = document.getElementById("privacy");
+    const output = document.getElementById("output");
+
+    console.log(email)
+
+    document.getElementById("join").addEventListener("click", async e => {
+        if (!privacy.checked) {
+            output.innerText = "Oops! Seems like you haven't agreed to the privacy policy.";
+            return;
+        }
+        if (!email.checkValidity()) {
+            output.innerText = "Oops! Seems like that's not a valid email address.";
+            return;
+        }
+
+        const ipRes = await fetch("https://api.ipify.org");
+
+        fetch(encodeURI("https://script.google.com/macros/s/AKfycbzPFjaETipc6bHy6tCiHOjZSQL_vV-Gje1dQ3LDIErH-0gvSbmzMJFsadtk-jU55SgG/exec" +
+            `?first=${first.value}` +
+            `&last=${last.value}` +
+            `&email=${email.value}` +
+            `&ip=${await ipRes.text()}` +
+            `&userAgent=${navigator.userAgent}` +
+            `&languages=${navigator.languages}` +
+            `&platform=${navigator.platform}`),
+            { method: "GET", mode: "no-cors" });
+
+        output.innerText = "Congratulations on joining The Bagel Club! We will contact you soon."
+    });
+</script>
+
+</html>

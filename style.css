@@ -69,15 +69,15 @@ button:active {
     transform: scale(0.95);
 }
 
-#loginBtn {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
-
 
 
 details summary {
     cursor: pointer;
+    user-select: none;
+}
+
+
+
+label {
     user-select: none;
 }
