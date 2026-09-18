@@ -9,14 +9,6 @@
 
     <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" href="./style.css">
-
-    <style>
-        redact {
-            color: lightgray;
-            white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
-        }
-    </style>
 </head>
 
 <body>
@@ -34,20 +26,5 @@
 </body>
 
 <script src="./script.js"></script>
-<script>
-    const redactTags = document.getElementsByTagName("redact");
-
-    const randomUnicode = n =>
-        Array.from({ length: n }, () =>
-            String.fromCodePoint(Math.floor(Math.random() * (0x30 - 0x7A + 1)) + 0x7A)
-        ).join("");
-
-    for (const tag of redactTags) {
-        setInterval(() => {
-            //tag.textContent = tag.textContent.split('').sort(function () { return 0.5 - Math.random() }).join('');
-            tag.textContent = randomUnicode(tag.textContent.length);
-        }, 50);
-    }
-</script>
 
 </html>
