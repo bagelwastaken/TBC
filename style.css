@@ -31,7 +31,6 @@ body.cat {
 }
 
 
-
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -40,13 +39,12 @@ body {
 
 a {
     color: var(--link-color);
-    text-decoration: none;
+    text-decoration: underline dotted;
 }
 
 .activeLink {
     color: var(--active-link-color);
 }
-
 
 
 button {
@@ -70,14 +68,19 @@ button:active {
 }
 
 
-
 details summary {
     cursor: pointer;
     user-select: none;
 }
 
 
-
 label {
     user-select: none;
+}
+
+
+redact {
+    color: lightgray;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
 }
