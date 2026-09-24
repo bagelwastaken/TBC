@@ -1,0 +1,81 @@
+:root {
+  --bg-color: #222222;
+  --text-color: #ffffff;
+  --link-color: #4372e9;
+  --active-link-color: #c9a8ea;
+}
+
+body.light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #0000FF;
+  --active-link-color: #9b11e6;
+}
+
+body.modernDark {
+  --bg-color: #202020;
+  --text-color: #d0d0d0;
+}
+
+body.contrast {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --link-color: #ffff00;
+  --active-link-color: #ff0000;
+}
+
+body.cat {
+  background-image: url("https://cataas.com/cat/gif?type=square");
+  background-size: 100vh;
+  background-position-x: center;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: sans-serif;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: underline dotted;
+}
+
+.activeLink {
+  color: var(--active-link-color);
+}
+
+button {
+  cursor: pointer;
+  transition:
+    all 300ms,
+    transform 0ms;
+  border-radius: 5px;
+  border-style: solid;
+  background-color: #ffffff;
+  border-color: #cacaca;
+}
+
+button:hover {
+  background-color: #cacaca;
+  border-color: #9f9f9f;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+details summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+label {
+  user-select: none;
+}
+
+redact {
+  color: lightgray;
+  white-space: pre-wrap;
+  font-family: "Courier New", Courier, monospace;
+}
